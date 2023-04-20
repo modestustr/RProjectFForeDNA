@@ -57,9 +57,9 @@ showPlot<-FALSE
 #-------------All Group by Organism and Substrate Type----
 p1 <- ggplot(data_group, aes(x = factor(Time), y = mean_copy)) +
   geom_boxplot(fill = "lightblue", color = c("#b39b9a")) +
-# scale_x_continuous(labels = scales::scientific, breaks = scales::pretty_breaks(n = 10)) +
-#scale_y_continuous(labels = scales::comma) +
-labs(title = "Organism and Substrate", x = "Time", y = "Copy Numbers Mean") +
+  # scale_x_continuous(labels = scales::scientific, breaks = scales::pretty_breaks(n = 10)) +
+  #scale_y_continuous(labels = scales::comma) +
+  labs(title = "Organism and Substrate", x = "Time", y = "Copy Numbers Mean") +
   facet_wrap(~Organism + Substrat, ncol = 1, scales = "free_y", strip.position = "right") +
   theme(strip.background = element_rect((fill = brewer.pal(6, "Set1"))), strip.text = element_text(color = "white", size = 10, face = "bold"))
 # Save
@@ -71,9 +71,9 @@ if(showPlot)
 #-------------Only Egeria----
 p2 <- ggplot(dataDegraEgeria, aes(x = factor(Time), y = mean_copy)) +
   geom_boxplot(fill = "lightblue", color = c("#b39b9a")) +
-# scale_x_continuous(labels = scales::scientific, breaks = scales::pretty_breaks(n = 10)) +
-#scale_y_continuous(labels = scales::comma) +
-labs(title = "Organism and Substrate", x = "Time", y = "Copy Numbers Mean") +
+  # scale_x_continuous(labels = scales::scientific, breaks = scales::pretty_breaks(n = 10)) +
+  #scale_y_continuous(labels = scales::comma) +
+  labs(title = "Organism and Substrate", x = "Time", y = "Copy Numbers Mean") +
   facet_wrap(~Organism + Substrat, ncol = 1, scales = "free_y", strip.position = "right") +
   theme(strip.background = element_rect((fill = brewer.pal(6, "Set1"))), strip.text = element_text(color = "white", size = 10, face = "bold"))
 # Save
@@ -85,16 +85,16 @@ if(showPlot)
 #-------------Only Daphnia----
 q2 <- ggplot(dataDegraDaphnia, aes(x = factor(Time), y = mean_copy)) +
   geom_boxplot(fill = "lightblue", color = c("#b39b9a")) +
-# scale_x_continuous(labels = scales::scientific, breaks = scales::pretty_breaks(n = 10)) +
-#scale_y_continuous(labels = scales::comma) +
-labs(title = "Organism and Substrate", x = "Time", y = "Copy Numbers Mean") +
+  # scale_x_continuous(labels = scales::scientific, breaks = scales::pretty_breaks(n = 10)) +
+  #scale_y_continuous(labels = scales::comma) +
+  labs(title = "Organism and Substrate", x = "Time", y = "Copy Numbers Mean") +
   facet_wrap(~Organism + Substrat, ncol = 1, scales = "free_y", strip.position = "right") +
   theme(strip.background = element_rect((fill = brewer.pal(6, "Set1"))), strip.text = element_text(color = "white", size = 10, face = "bold"))
 # Save
 plotSave(q2, "Degra_CopyNumbersMeanByOnlyDaphnia.png")
 # View 
 if(showPlot)
-q2
+  q2
 
 #--------------------View plots at the same screen-p2-q2----
 c1 <- grid.arrange(p2, q2, ncol = 2)
@@ -105,8 +105,8 @@ plotSave(c1, "Degra_CopyNumbersMean.png")
 # For Egeria
 p3 <- ggplot(dataDegraEgeria, aes(x = factor(Time), y = mean_copy, group = interaction(Organism, Substrat, Set))) +
   geom_point() +
-#geom_boxplot(fill = "lightblue", color = c("#b39b9a"))  +
-scale_y_continuous(labels = scales::comma) +
+  #geom_boxplot(fill = "lightblue", color = c("#b39b9a"))  +
+  scale_y_continuous(labels = scales::comma) +
   facet_grid(Organism + Substrat ~ Set + ., scales = "free_y", switch = "x") +
   labs(title = "Organism and Substrate", x = "Time(Hours)", y = "Copy Numbers Mean") +
   theme(strip.background = element_rect(fill = brewer.pal(6, "Set1")),
@@ -122,8 +122,8 @@ if(showPlot)
 # For Daphnia
 q3 <- ggplot(dataDegraDaphnia, aes(x = factor(Time), y = mean_copy, group = interaction(Organism, Substrat, Set))) +
   geom_point() +
-#geom_boxplot(fill = "lightblue", color = c("#b39b9a"))  +
-scale_y_continuous(labels = scales::comma) +
+  #geom_boxplot(fill = "lightblue", color = c("#b39b9a"))  +
+  scale_y_continuous(labels = scales::comma) +
   facet_grid(Organism + Substrat ~ Set + ., scales = "free_y", switch = "x") +
   labs(title = "Organism and Substrate", x = "Time(Hours)", y = "Copy Numbers Mean") +
   theme(strip.background = element_rect(fill = brewer.pal(6, "Set1")),
@@ -149,7 +149,7 @@ p4 <- ggplot(dataDegraEgeria, aes(x = factor(Time), y = mean_copy, color = Set))
   labs(title = "Organism and Substrate", x = "Time(Hours) and Set", y = "Copy Numbers Mean") +
   theme(
     strip.background = element_rect(fill = brewer.pal(9, "Set1")),
-#strip.text = element_text(color = "white",size = 0, face = "bold.italic"),
+    #strip.text = element_text(color = "white",size = 0, face = "bold.italic"),
     axis.text.x = element_text(angle = 0, vjust = 0.5),
     axis.title.x = element_text(vjust = -0.5),
     panel.spacing.x = unit(0.5, "lines")
@@ -168,7 +168,7 @@ q4 <- ggplot(dataDegraDaphnia, aes(x = factor(Time), y = mean_copy, color = Set)
   labs(title = "Organism and Substrate", x = "Time(Hours) and Set", y = "Copy Numbers Mean") +
   theme(
     strip.background = element_rect(fill = brewer.pal(9, "Set1")),
-#strip.text = element_text(color = "white",size = 0, face = "bold.italic"),
+    #strip.text = element_text(color = "white",size = 0, face = "bold.italic"),
     axis.text.x = element_text(angle = 90, vjust = 0.5),
     axis.title.x = element_text(vjust = -0.5),
     panel.spacing.x = unit(0.5, "lines")
