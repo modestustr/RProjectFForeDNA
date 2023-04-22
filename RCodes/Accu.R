@@ -40,9 +40,9 @@ library(ggpmisc)
 library(readr)
 #-------------CALLING CUSTOM FUNCS----
 source("RCodes/plotSave.R")
-source("RCodes/importCSV.R")
+source("RCodes/ImportExcel.R")
 #-------------import data set from csv file in data folder----
-EgeriaDaphniaAccu <- ImportCSV("data/EgeriaDaphniaAccu.csv")
+EgeriaDaphniaAccu <- ImportExcel("data/Daphnia_Egeria_raw data.xlsx","EgeriaDaphniaAccuCombined","A1:J253")
 #-------------Mean by groups----
 data_group <- EgeriaDaphniaAccu %>%
   group_by(Organism, Substrat, Sample, Time) %>%

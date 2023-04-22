@@ -35,9 +35,9 @@ library(readr)
 
 #-------------CALLING CUSTOM FUNCS----
 source("RCodes/plotSave.R")
-source("RCodes/importCSV.R")
+source("RCodes/ImportExcel.R")
 #-------------import data set from csv file in data folder----
-EgeriaDaphniaDegra <- ImportCSV("data/EgeriaDaphniaDegra.csv")
+EgeriaDaphniaDegra <- ImportExcel("data/Daphnia_Egeria_raw data.xlsx","EgeriaDaphniaDegraCombinedCorr","A1:K1297")
 #-------------Mean by groups----
 data_group <- EgeriaDaphniaDegra %>%
   group_by(Organism, Substrat, Set, Sample, Time) %>%
