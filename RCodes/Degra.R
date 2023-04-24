@@ -2,7 +2,7 @@
 source("RCodes/usings.R")
 source("RCodes/plotSave.R")
 source("RCodes/ImportExcel.R")
-#-------------import data set from csv file in data folder----
+#-------------import data set from excel file in data folder----
 EgeriaDaphniaDegra <- ImportExcel("data/Daphnia_Egeria_raw data.xlsx","EgeriaDaphniaDegraCombinedCorr","A1:K1297")
 #-------------Mean by groups----
 data_group <- EgeriaDaphniaDegra %>%
