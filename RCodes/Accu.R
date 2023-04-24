@@ -1,44 +1,5 @@
-#-------------INSTALL PACKAGES IF REQUIRED----
-# ggplot2
-if (!require(ggplot2))
-  install.packages("ggplot2")
-
-# RColorBrewer
-if (!require(RColorBrewer))
-  install.packages("RColorBrewer")
-
-# readxl
-if (!require(readxl))
-  install.packages("readxl")
-
-# readr
-if (!require(readr))
-  install.packages("readr")
-
-# scales
-if (!require(scales))
-  install.packages("scales")
-
-# dplyr
-if (!require(dplyr))
-  install.packages("dplyr")
-
-# ggpmisc
-if (!require(ggpmisc))
-  install.packages("ggpmisc")
-
-# gridExtra
-if (!require(gridExtra))
-  install.packages("gridExtra")
-#-------------USING LIBRARIES----
-library(dplyr)
-library(ggplot2)
-library(RColorBrewer)
-library(scales)
-library(gridExtra)
-library(ggpmisc)
-library(readr)
 #-------------CALLING CUSTOM FUNCS----
+source("RCodes/usings.R")
 source("RCodes/plotSave.R")
 source("RCodes/ImportExcel.R")
 #-------------import data set from csv file in data folder----
@@ -59,6 +20,8 @@ dataAccuDaphnia <- dataAccuDaphnia %>%
   mutate(Organism = if_else(Organism == "Daphnia", "D.magna", Organism))
 # Show Plots in Plot Window
 showPlot<-FALSE
+# Save is On/Off
+isSaveOn<-TRUE
 #-------------All Group by Organism and Substrate Type----
 p1<-ggplot(data_group, aes(x = factor(Time), y = mean_copy)) + 
   geom_boxplot(fill = "lightblue", color = c("#b39b9a"))  +
@@ -68,7 +31,8 @@ p1<-ggplot(data_group, aes(x = factor(Time), y = mean_copy)) +
   facet_wrap(~ Organism + Substrat, ncol = 1, scales = "fixed", strip.position = "right") +
   theme(strip.background = element_rect((fill = brewer.pal(6, "Set1"))),strip.text = element_text(color = "white", size = 10, face = "bold"))
 # Save
-plotSave(p1, "Accu_CopyNumbersMeanByAllGroup.png")
+if(isSaveOn)
+  plotSave(p1, "Accu_CopyNumbersMeanByAllGroup.png")
 # View
 if(showPlot)
   p1
@@ -81,7 +45,8 @@ p2<-ggplot(dataAccuEgeria, aes(x = factor(Time), y = mean_copy)) +
   facet_wrap(~ Organism + Substrat, ncol = 1, scales = "fixed", strip.position = "right") +
   theme(strip.background = element_rect((fill = brewer.pal(6, "Set1"))),strip.text = element_text(color = "white", size = 10, face = "bold"))
 # Save
-plotSave(p2, "Accu_CopyNumbersMeanByOnlyEgeria.png")
+if(isSaveOn)
+  plotSave(p2, "Accu_CopyNumbersMeanByOnlyEgeria.png")
 # View
 p2
 #-------------Only Daphnia----
@@ -94,11 +59,15 @@ q2<-ggplot(dataAccuDaphnia, aes(x = factor(Time), y = mean_copy)) +
   theme(strip.background = element_rect((fill = brewer.pal(6, "Set1"))),
         strip.text = element_text(color = "white", size = 10, face = "bold"))
 # Save
-plotSave(q2, "Accu_CopyNumbersMeanByOnlyDaphnia.png")
+if(isSaveOn)
+  plotSave(q2, "Accu_CopyNumbersMeanByOnlyDaphnia.png")
 # View
 q2
 #--------------------View plots at the same screen-p2-q2----
 c1<-grid.arrange(p2,q2,ncol=2)
 if(showPlot)
   c1
-plotSave(c1,"Accu_CopyNumbersMean.png")
+if(isSaveOn)
+  plotSave(c1,"Accu_CopyNumbersMean.png")
+
+cat("\nAccu Run Finished \n" )

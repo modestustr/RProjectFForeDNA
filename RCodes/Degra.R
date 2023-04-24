@@ -1,39 +1,5 @@
-#-------------INSTALL PACKAGES IF REQUIRED----
-# ggplot2
-if (!require(ggplot2)) install.packages("ggplot2")
-
-# RColorBrewer
-if (!require(RColorBrewer)) install.packages("RColorBrewer")
-
-# readxl
-if (!require(readxl)) install.packages("readxl")
-
-
-# readr
-if (!require(readr)) install.packages("readr")
-
-# scales
-if (!require(scales)) install.packages("scales")
-
-# dplyr
-if (!require(dplyr)) install.packages("dplyr")
-
-# ggpmisc
-if (!require(ggpmisc)) install.packages("ggpmisc")
-
-# gridExtra
-if (!require(gridExtra)) install.packages("gridExtra")
-
-#-------------USING LIBRARIES----
-library(dplyr)
-library(ggplot2)
-library(RColorBrewer)
-library(scales)
-library(gridExtra)
-library(ggpmisc)
-library(readr)
-
 #-------------CALLING CUSTOM FUNCS----
+source("RCodes/usings.R")
 source("RCodes/plotSave.R")
 source("RCodes/ImportExcel.R")
 #-------------import data set from csv file in data folder----
@@ -54,6 +20,8 @@ dataDegraDaphnia <- dataDegraDaphnia %>%
   mutate(Organism = if_else(Organism == "Daphnia", "D.magna", Organism))
 # Show Plots in Plot Window
 showPlot<-FALSE
+# Save is On/Off
+isSaveOn<-TRUE
 #-------------All Group by Organism and Substrate Type----
 p1 <- ggplot(data_group, aes(x = factor(Time), y = mean_copy)) +
   geom_boxplot(fill = "lightblue", color = c("#b39b9a")) +
@@ -63,6 +31,7 @@ p1 <- ggplot(data_group, aes(x = factor(Time), y = mean_copy)) +
   facet_wrap(~Organism + Substrat, ncol = 1, scales = "free_y", strip.position = "right") +
   theme(strip.background = element_rect((fill = brewer.pal(6, "Set1"))), strip.text = element_text(color = "white", size = 10, face = "bold"))
 # Save
+if(isSaveOn)
 plotSave(p1, "CopyNumbersMeanByAllGroup.png")
 # View
 if(showPlot)
@@ -77,6 +46,7 @@ p2 <- ggplot(dataDegraEgeria, aes(x = factor(Time), y = mean_copy)) +
   facet_wrap(~Organism + Substrat, ncol = 1, scales = "free_y", strip.position = "right") +
   theme(strip.background = element_rect((fill = brewer.pal(6, "Set1"))), strip.text = element_text(color = "white", size = 10, face = "bold"))
 # Save
+if(isSaveOn)
 plotSave(p2, "Degra_CopyNumbersMeanByOnlyEgeria.png")
 # View 
 if(showPlot)
@@ -91,6 +61,7 @@ q2 <- ggplot(dataDegraDaphnia, aes(x = factor(Time), y = mean_copy)) +
   facet_wrap(~Organism + Substrat, ncol = 1, scales = "free_y", strip.position = "right") +
   theme(strip.background = element_rect((fill = brewer.pal(6, "Set1"))), strip.text = element_text(color = "white", size = 10, face = "bold"))
 # Save
+if(isSaveOn)
 plotSave(q2, "Degra_CopyNumbersMeanByOnlyDaphnia.png")
 # View 
 if(showPlot)
@@ -100,6 +71,7 @@ if(showPlot)
 c1 <- grid.arrange(p2, q2, ncol = 2)
 if(showPlot)
   c1
+if(isSaveOn)
 plotSave(c1, "Degra_CopyNumbersMean.png")
 #-------------Curve lineer model----
 # For Egeria
@@ -113,6 +85,7 @@ p3 <- ggplot(dataDegraEgeria, aes(x = factor(Time), y = mean_copy, group = inter
         strip.text = element_text(color = "white", size = 10, face = "bold")) +
   geom_smooth(aes(group = interaction(Organism, Substrat, Set)), method = "lm")
 # Save
+if(isSaveOn)
 plotSave(p3, "Degra_AddLMCurveForEgeria.png")
 # View
 if(showPlot)
@@ -130,6 +103,7 @@ q3 <- ggplot(dataDegraDaphnia, aes(x = factor(Time), y = mean_copy, group = inte
         strip.text = element_text(color = "white", size = 10, face = "bold")) +
   geom_smooth(aes(group = interaction(Organism, Substrat, Set)), method = "lm")
 # Save
+if(isSaveOn)
 plotSave(q3, "Degra_AddLMCurveForDaphina.png")
 # view 
 if(showPlot)
@@ -138,6 +112,7 @@ if(showPlot)
 c2 <- grid.arrange(p3, q3, ncol = 2)
 if(showPlot)
   c2
+if(isSaveOn)
 plotSave(c2, "Degra_AddLMCurve.png")
 
 #-------------By Time and Set----
@@ -155,6 +130,7 @@ p4 <- ggplot(dataDegraEgeria, aes(x = factor(Time), y = mean_copy, color = Set))
     panel.spacing.x = unit(0.5, "lines")
   )
 # Save
+if(isSaveOn)
 plotSave(p4, "Degra_CopyNumbersMeanByTimeSetsForEgeria.png")
 # view
 if(showPlot)
@@ -174,6 +150,7 @@ q4 <- ggplot(dataDegraDaphnia, aes(x = factor(Time), y = mean_copy, color = Set)
     panel.spacing.x = unit(0.5, "lines")
   )
 # Save
+if(isSaveOn)
 plotSave(q4, "Degra_CopyNumbersMeanByTimeSetsForDaphina.png")
 # view
 if(showPlot)
@@ -182,6 +159,7 @@ if(showPlot)
 c3 <- grid.arrange(p4, q4, ncol = 2)
 if(showPlot)
   c3
+if(isSaveOn)
 plotSave(c3, "Degra_CopyNumbersMeanByTimeSets.png")
 #-------------By Sets----
 # Only Egeria 
@@ -197,6 +175,7 @@ p5 <- ggplot(dataDegraEgeria, aes(x = factor(Time), y = mean_copy)) +
         panel.spacing.x = unit(0.5, "lines"))
 
 # Save
+if(isSaveOn)
 plotSave(p5, "Degra_CopyNumbersMeanBySetsForEgeria.png")
 # view
 if(showPlot)
@@ -216,6 +195,7 @@ q5 <- ggplot(dataDegraDaphnia, aes(x = factor(Time), y = mean_copy)) +
         panel.spacing.x = unit(0.5, "lines"))
 
 # Save
+if(isSaveOn)
 plotSave(q5, "Degra_CopyNumbersMeanBySetsForDaphnia.png")
 # view
 if(showPlot)
@@ -224,4 +204,6 @@ if(showPlot)
 c4 <- grid.arrange(p5, q5, ncol = 2)
 if(showPlot)
   c4
+if(isSaveOn)
 plotSave(c4, "Degra_CopyNumbersMeanBySets.png")
+cat("\nDegra Run Finished \n" )
