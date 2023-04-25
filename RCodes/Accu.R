@@ -2,8 +2,10 @@
 source("RCodes/usings.R")
 source("RCodes/plotSave.R")
 source("RCodes/ImportExcel.R")
-#-------------import data set from excel file in data folder----
-EgeriaDaphniaAccu <- ImportExcel("data/Daphnia_Egeria_raw data.xlsx",
+source("RCodes/getDataFileName.R")
+#-------------Open File, Move to Data Folder and import data set from excel or csv file by getDataFileName Function----
+selectedFile<-getDataFileName()
+EgeriaDaphniaAccu <- ImportExcel(selectedFile,
                                  "EgeriaDaphniaAccuCombined","A1:J253",
                                  na="NA")
 EgeriaDaphniaAccuFiltered<- EgeriaDaphniaAccu %>% filter(CopyNumberLoged!="", !is.na(CopyNumberLoged))
@@ -22,9 +24,9 @@ dataAccuDaphnia <- filter(data_group, Organism == "Daphnia")
 dataAccuDaphnia <- dataAccuDaphnia %>%
   mutate(Organism = if_else(Organism == "Daphnia", "D.magna", Organism))
 # Show Plots in Plot Window
-showPlot<-FALSE
+showPlot<-TRUE
 # Save is On/Off
-isSaveOn<-TRUE
+isSaveOn<-FALSE
 #-------------All Group by Organism and Substrate Type----
 p1<-ggplot(data_group, aes(x = factor(Time), y = mean_copy)) + 
   geom_boxplot(fill = "lightblue", color = c("#b39b9a"))  +

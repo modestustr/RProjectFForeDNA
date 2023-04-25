@@ -47,6 +47,13 @@ if (!require(hrbrthemes))
 if (!require(viridis))
   install.packages("viridis")
 
+# tcltk
+if (!require(tcltk))
+  install.packages("tcltk")
+
+# tcltk2
+if (!require(tcltk2))
+  install.packages("tcltk2")
 
 #-------------USING LIBRARIES----
 library(dplyr)
@@ -60,6 +67,8 @@ library(progress)
 library(tidyverse)
 library(hrbrthemes)
 library(viridis)
+library(tcltk)
+library(tcltk2)
 #-------------Create data and outputs Folder if not exist
 if (!dir.exists("data")) {
   dir.create("data")

@@ -2,8 +2,10 @@
 source("RCodes/usings.R")
 source("RCodes/plotSave.R")
 source("RCodes/ImportExcel.R")
-#-------------import data set from excel file in data folder----
-EgeriaDaphniaDegra <- ImportExcel("data/Daphnia_Egeria_raw data.xlsx","EgeriaDaphniaDegraCombinedCorr","A1:K1405",na="NA")
+source("RCodes/getDataFileName.R")
+#-------------Open File, Move to Data Folder and import data set from excel or csv file by getDataFileName Function----
+selectedFile<-getDataFileName()
+EgeriaDaphniaDegra <- ImportExcel(selectedFile,"EgeriaDaphniaDegraCombinedCorr","A1:K1405",na="NA")
 # Filter by Empty and NOT NA
 EgeriaDaphniaDegraFiltered<- EgeriaDaphniaDegra %>% filter(CopyNumberLoged!="", !is.na(CopyNumberLoged))
 #-------------Mean by groups----
