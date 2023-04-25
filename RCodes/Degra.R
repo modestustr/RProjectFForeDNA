@@ -3,11 +3,13 @@ source("RCodes/usings.R")
 source("RCodes/plotSave.R")
 source("RCodes/ImportExcel.R")
 #-------------import data set from excel file in data folder----
-EgeriaDaphniaDegra <- ImportExcel("data/Daphnia_Egeria_raw data.xlsx","EgeriaDaphniaDegraCombinedCorr","A1:K1297")
+EgeriaDaphniaDegra <- ImportExcel("data/Daphnia_Egeria_raw data.xlsx","EgeriaDaphniaDegraCombinedCorr","A1:K1405",na="NA")
+# Filter by Empty and NOT NA
+EgeriaDaphniaDegraFiltered<- EgeriaDaphniaDegra %>% filter(CopyNumberLoged!="", !is.na(CopyNumberLoged))
 #-------------Mean by groups----
-data_group <- EgeriaDaphniaDegra %>%
+data_group <- EgeriaDaphniaDegraFiltered %>%
   group_by(Organism, Substrat, Set, Sample, Time) %>%
-  summarize(mean_copy = mean(CopyNumberLoged))
+  summarize(mean_copy = mean(CopyNumberLoged,na.rm = TRUE))
 #-------------Filters----
 # Filter for Egeria
 dataDegraEgeria <- filter(data_group, Organism == "Egeria")
@@ -19,14 +21,16 @@ dataDegraDaphnia <- filter(data_group, Organism == "Daphnia")
 dataDegraDaphnia <- dataDegraDaphnia %>%
   mutate(Organism = if_else(Organism == "Daphnia", "D.magna", Organism))
 # Show Plots in Plot Window
-showPlot<-FALSE
+showPlot<-TRUE
 # Save is On/Off
-isSaveOn<-TRUE
+isSaveOn<-FALSE
 #-------------All Group by Organism and Substrate Type----
 p1 <- ggplot(data_group, aes(x = factor(Time), y = mean_copy)) +
-  geom_boxplot(fill = "lightblue", color = c("#b39b9a")) +
+  geom_boxplot() +
+  # geom_boxplot(fill = "lightblue", color = c("#b39b9a")) +
   # scale_x_continuous(labels = scales::scientific, breaks = scales::pretty_breaks(n = 10)) +
   #scale_y_continuous(labels = scales::comma) +
+  scale_fill_viridis(discrete = TRUE, alpha=0.9) +
   labs(title = "Organism and Substrate", x = "Time", y = "Copy Numbers Mean") +
   facet_wrap(~Organism + Substrat, ncol = 1, scales = "free_y", strip.position = "right") +
   theme(strip.background = element_rect((fill = brewer.pal(6, "Set1"))), strip.text = element_text(color = "white", size = 10, face = "bold"))
