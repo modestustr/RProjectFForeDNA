@@ -35,6 +35,18 @@ if (!require(gridExtra))
 if (!require(progress))
   install.packages("progress")
 
+# tidyverse
+if (!require(tidyverse))
+  install.packages("tidyverse")
+
+# hrbrthemes
+if (!require(hrbrthemes))
+  install.packages("hrbrthemes")
+
+# viridis
+if (!require(viridis))
+  install.packages("viridis")
+
 
 #-------------USING LIBRARIES----
 library(dplyr)
@@ -45,3 +57,6 @@ library(gridExtra)
 library(ggpmisc)
 library(readr)
 library(progress)
+library(tidyverse)
+library(hrbrthemes)
+library(viridis)
