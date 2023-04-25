@@ -60,3 +60,11 @@ library(progress)
 library(tidyverse)
 library(hrbrthemes)
 library(viridis)
+#-------------Create data and outputs Folder if not exist
+if (!dir.exists("data")) {
+  dir.create("data")
+}
+if (!dir.exists("outputs")) {
+  dir.create("outputs")
+}
+cat("\nLibraries Installed \n" )
