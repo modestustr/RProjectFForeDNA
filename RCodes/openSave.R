@@ -9,7 +9,10 @@
   # 
 
   # create a file.choose dialog box with only CSV and Excel files shown
-  filepath <- tclvalue(tcl("tk_getOpenFile", filetypes = '{{Excel Workbook} {.xlsx}} {{Comma-Separated Values} {.csv}}'))
+   
+   filetypes <- "{{Excel Workbook 2007} {.xlsx}} {{Excel Workbook 2003} {.xls}} {{Comma-Separated Values} {.csv}}"
+   filetypes <- as.character(filetypes)
+   filepath <- tclvalue(tcl("tk_getOpenFile", filetypes = filetypes))
   
   
  # Raise the file choose dialog to the front of other windows
@@ -29,7 +32,9 @@
     
     # return the file path in the project folder
     proj_filepath <- file.path(dest_dir, basename(filepath))
-    message(substring(proj_filepath,3))
-    return(substring(proj_filepath,3))
+    
+    myGlobalDefaultFileName <<- substring(proj_filepath,3)
+    message(myGlobalDefaultFileName)
+    return(myGlobalDefaultFileName)
   }
 }
