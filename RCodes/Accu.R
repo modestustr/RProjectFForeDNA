@@ -6,7 +6,7 @@ source("RCodes/getDataFileName.R")
 #-------------Open File, Move to Data Folder and import data set from excel or csv file by getDataFileName Function----
 selectedFile<-getDataFileName()
 EgeriaDaphniaAccu <- ImportExcel(selectedFile,
-                                 "EgeriaDaphniaAccu","A1:K257",
+                                 "EgeriaDaphniaAccu","A1:J257",
                                  na="na")
 EgeriaDaphniaAccuFiltered<- EgeriaDaphniaAccu %>% filter(CopyNumberLoged!="", !is.na(CopyNumberLoged))
 #-------------Mean by groups----
