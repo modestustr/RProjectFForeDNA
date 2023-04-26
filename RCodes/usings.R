@@ -31,6 +31,15 @@ if (!require(ggpmisc))
 if (!require(gridExtra))
   install.packages("gridExtra")
 
+# ggpubr
+if (!require(ggpubr))
+  install.packages("ggpubr")
+
+# cowplot
+if (!require(cowplot))
+  install.packages("cowplot")
+
+
 # progress
 if (!require(progress))
   install.packages("progress")
@@ -55,12 +64,18 @@ if (!require(tcltk))
 if (!require(tcltk2))
   install.packages("tcltk2")
 
+# rlang
+if (!require(rlang))
+  install.packages("rlang")
+
 #-------------USING LIBRARIES----
 library(dplyr)
 library(ggplot2)
 library(RColorBrewer)
 library(scales)
 library(gridExtra)
+library(ggpubr)
+library(cowplot)
 library(ggpmisc)
 library(readr)
 library(progress)
@@ -69,11 +84,22 @@ library(hrbrthemes)
 library(viridis)
 library(tcltk)
 library(tcltk2)
-#-------------Create data and outputs Folder if not exist
+library(rlang)
+
+#-------------Create data and outputs(includes tries folder) Folder if not exist----
 if (!dir.exists("data")) {
   dir.create("data")
 }
 if (!dir.exists("outputs")) {
   dir.create("outputs")
 }
-cat("\nLibraries Installed \n" )
+if (!dir.exists("outputs/tries")) {
+  dir.create("outputs/tries")
+}
+#-------------Load mandatory files and iniquities----
+source("RCodes/plotSave.R")
+source("RCodes/ImportExcel.R")
+source("RCodes/getDataFileName.R")
+source("RCOdes/dataMeanGroupBy.R")
+
+cat("\nLibraries and iniquities Installed \n" )
