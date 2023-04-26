@@ -1,28 +1,26 @@
-#-------------CALLING CUSTOM FUNCS----
+#-------------USINGS----
 source("RCodes/usings.R")
-source("RCodes/plotSave.R")
-source("RCodes/ImportExcel.R")
-source("RCodes/getDataFileName.R")
 #-------------Open File, Move to Data Folder and import data set from excel or csv file by getDataFileName Function----
 selectedFile<-getDataFileName()
 EgeriaDaphniaDegra <- ImportExcel(selectedFile,"EgeriaDaphniaDegra","A1:L1297",na="na")
 # Filter by Empty and NOT NA
 EgeriaDaphniaDegraFiltered<- EgeriaDaphniaDegra %>% filter(CopyNumberLoged!="", !is.na(CopyNumberLoged))
+col_names<-colnames(EgeriaDaphniaDegraFiltered)
+col_names
 #-------------Mean by groups----
-data_groupDegra <- EgeriaDaphniaDegraFiltered %>%
-  group_by(Organism, Substrat, Set, Sample, Time) %>%
-  summarize(mean_copy = mean(CopyNumberLoged,na.rm = TRUE))
+data_groupDegra <- dataMeanGroupBy(EgeriaDaphniaDegraFiltered, c(4, 5, 6, 1, 2), "CopyNumberLoged", TRUE)
+
 #-------------Filters----
 # Filter for Egeria
-dataDegraEgeria <- filter(data_groupDegra, Organism == "Egeria")
-dataDegraEgeria <- dataDegraEgeria %>%
-  mutate(Organism = if_else(Organism == "Egeria", "E.densa", Organism))
+dataDegraEgeria <- filter(data_groupDegra, Organism == "E.densa")
+# dataDegraEgeria <- dataDegraEgeria %>%
+#   mutate(Organism = if_else(Organism == "Egeria", "E.densa", Organism))
 
 # Filter for Daphnia 
-dataDegraDaphnia <- filter(data_groupDegra, Organism == "Daphnia")
-dataDegraDaphnia <- dataDegraDaphnia %>%
-  mutate(Organism = if_else(Organism == "Daphnia", "D.magna", Organism))
-# Show Plots in Plot Window
+dataDegraDaphnia <- filter(data_groupDegra, Organism == "D.magna")
+# dataDegraDaphnia <- dataDegraDaphnia %>%
+#   mutate(Organism = if_else(Organism == "Daphnia", "D.magna", Organism))
+#-------------Show Plots in Plot Window----
 showPlot<-TRUE
 # Save is On/Off
 isSaveOn<-TRUE
