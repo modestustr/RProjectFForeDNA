@@ -96,6 +96,14 @@ if (!dir.exists("outputs")) {
 if (!dir.exists("outputs/tries")) {
   dir.create("outputs/tries")
 }
+if(!file.exists("data/Data.xlsx")){
+  
+  url <- "http://www.modestusnet.com/Data.xlsx"
+  filename <- "data/Data.xlsx"
+  download.file(url, destfile = filename, mode = "wb")
+  myGlobalDefaultFileName<-"data/Data.xlsx"
+}
+  
 #-------------Load mandatory files and iniquities----
 source("RCodes/plotSave.R")
 source("RCodes/ImportExcel.R")
