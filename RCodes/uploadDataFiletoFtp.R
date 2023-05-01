@@ -21,3 +21,4 @@ password <- readline(prompt = "FTP password: ")
 # FTP connection
 ftp_conn <- ftpUpload(local_file, paste0("ftp://", user, ":", password, "@", ftp_server, "/", remote_file))
 
+message("File Uploaded succesfully")
