@@ -1,3 +1,7 @@
+# 
+file_conn <- file("outputs/outputDegra.txt")
+#
+sink(file_conn)
 #-------------USINGS----
 source("RCodes/usings.R")
 #-------------Open File, Move to Data Folder and import data set from excel or csv file by getDataFileName Function----
@@ -21,9 +25,9 @@ dataDegraDaphnia <- filter(data_groupDegra, Organism == "D.magna")
 # dataDegraDaphnia <- dataDegraDaphnia %>%
 #   mutate(Organism = if_else(Organism == "Daphnia", "D.magna", Organism))
 #-------------Show Plots in Plot Window----
-showPlot<-TRUE
+showPlot<-FALSE
 # Save is On/Off
-isSaveOn<-TRUE
+isSaveOn<-FALSE
 #-------------All Group by Organism and Substrate Type----
 p1 <- ggplot(data_groupDegra, aes(x = factor(Time), y = mean_copy)) +
   geom_boxplot() +
@@ -210,4 +214,6 @@ if(showPlot)
   c4
 if(isSaveOn)
   plotSave(c4, "Degra_CopyNumbersMeanBySets.png")
-cat("\nDegra Run Finished \n" )
+message("\nDegra Run Finished \n" )
+sink()
+close(file_conn)

@@ -1,3 +1,8 @@
+# 
+file_conn <- file("outputs/outputAccu.txt")
+#
+sink(file_conn)
+
 #-------------USINGS----
 source("RCodes/usings.R")
 
@@ -120,4 +125,6 @@ if(showPlot)
 if(isSaveOn)
   plotSave(c1,"Accu_CopyNumbersMean.png")
 
-cat("\nAccu Run Finished \n" )
+message("\nAccu Run Finished \n" )
+sink()
+close(file_conn)
