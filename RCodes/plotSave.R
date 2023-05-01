@@ -13,6 +13,6 @@ plotSave <-
            dpi = dpi)
     
     # Notification for saved file
-    cat(sprintf("\nPlot saved as %s\n", filename))
+    message(sprintf("\nPlot saved as %s\n", filename))
     
   }

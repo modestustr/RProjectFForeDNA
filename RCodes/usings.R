@@ -1,3 +1,4 @@
+sink("outputs/output.txt")
 #-------------INSTALL PACKAGES IF REQUIRED----
 # ggplot2
 if (!require(ggplot2))
@@ -102,12 +103,14 @@ if(!file.exists("data/Data.xlsx")){
   filename <- "data/Data.xlsx"
   download.file(url, destfile = filename, mode = "wb")
   myGlobalDefaultFileName<-"data/Data.xlsx"
+  message("\nData File has been download\n" )
 }
-  
+
 #-------------Load mandatory files and iniquities----
 source("RCodes/plotSave.R")
 source("RCodes/ImportExcel.R")
 source("RCodes/getDataFileName.R")
 source("RCOdes/dataMeanGroupBy.R")
 
-cat("\nLibraries and iniquities Installed \n" )
+message("\nLibraries and iniquities Installed \n" )
+sink()
