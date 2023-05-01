@@ -3,7 +3,7 @@ if (!require(RCurl))
 
 library(RCurl)
 
-# FTP server
+# FTP serve
 ftp_server <- "www.modestusnet.com"
 remote_file <- "httpdocs/Data.xlsx"
 local_file<-"data/Data.xlsx"
@@ -21,5 +21,3 @@ password <- readline(prompt = "FTP password: ")
 # FTP connection
 ftp_conn <- ftpUpload(local_file, paste0("ftp://", user, ":", password, "@", ftp_server, "/", remote_file))
 
-# Close Connection
-close(ftp_conn)
