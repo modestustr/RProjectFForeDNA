@@ -1,91 +1,26 @@
 sink("outputs/output.txt")
 #-------------INSTALL PACKAGES IF REQUIRED----
-# ggplot2
-if (!require(ggplot2))
-  install.packages("ggplot2")
+# Package List
+pkg_list <- c(
+  "ggplot2", "RColorBrewer","readxl","readr",
+  "scales","dplyr","ggpmisc","gridExtra",
+  "ggpubr","cowplot","progress","tidyverse",
+  "hrbrthemes","viridis","tcltk","tcltk2",
+  "rlang","pacman","BiocManager","easynls","openxlsx","dada2"
+)
 
-# RColorBrewer
-if (!require(RColorBrewer))
-  install.packages("RColorBrewer")
+# All Installed Packages
+installed_pkgs <- installed.packages()
 
-# readxl
-if (!require(readxl))
-  install.packages("readxl")
+# Install Packages in List
+for (pkg in pkg_list) {
+  if (!(pkg %in% installed_pkgs[, "Package"])) {
+    install.packages(pkg)
+  }
+}
 
-# readr
-if (!require(readr))
-  install.packages("readr")
-
-# scales
-if (!require(scales))
-  install.packages("scales")
-
-# dplyr
-if (!require(dplyr))
-  install.packages("dplyr")
-
-# ggpmisc
-if (!require(ggpmisc))
-  install.packages("ggpmisc")
-
-# gridExtra
-if (!require(gridExtra))
-  install.packages("gridExtra")
-
-# ggpubr
-if (!require(ggpubr))
-  install.packages("ggpubr")
-
-# cowplot
-if (!require(cowplot))
-  install.packages("cowplot")
-
-
-# progress
-if (!require(progress))
-  install.packages("progress")
-
-# tidyverse
-if (!require(tidyverse))
-  install.packages("tidyverse")
-
-# hrbrthemes
-if (!require(hrbrthemes))
-  install.packages("hrbrthemes")
-
-# viridis
-if (!require(viridis))
-  install.packages("viridis")
-
-# tcltk
-if (!require(tcltk))
-  install.packages("tcltk")
-
-# tcltk2
-if (!require(tcltk2))
-  install.packages("tcltk2")
-
-# rlang
-if (!require(rlang))
-  install.packages("rlang")
-
-#-------------USING LIBRARIES----
-library(dplyr)
-library(ggplot2)
-library(RColorBrewer)
-library(scales)
-library(gridExtra)
-library(ggpubr)
-library(cowplot)
-library(ggpmisc)
-library(readr)
-library(progress)
-library(tidyverse)
-library(hrbrthemes)
-library(viridis)
-library(tcltk)
-library(tcltk2)
-library(rlang)
+# Load library
+lapply(pkg_list, library, character.only = TRUE)
 
 #-------------Create data and outputs(includes tries folder) Folder if not exist----
 if (!dir.exists("data")) {
@@ -111,6 +46,8 @@ source("RCodes/plotSave.R")
 source("RCodes/ImportExcel.R")
 source("RCodes/getDataFileName.R")
 source("RCOdes/dataMeanGroupBy.R")
+source("RCOdes/readChoice.R")
+source("RCOdes/nlsPlotModel6.R")
 
 message("\nLibraries and iniquities Installed \n" )
 sink()
