@@ -33,7 +33,7 @@ filterTrimForDada2 <-
       plotQualityProfile(fnF1) # Forward
     if (isShowR)
       plotQualityProfile(fnR1) # Reverse
-    
+
     #------Filter and Trim
     filterAndTrim(
       fwd = fnF1,
@@ -50,30 +50,29 @@ filterTrimForDada2 <-
     #-----Dereplicate
     derepF1 <- derepFastq(filtF1, verbose = TRUE)
     derepR1 <- derepFastq(filtR1, verbose = TRUE)
-    
+
     #------Learn the error rates
     errF <- learnErrors(derepF1, multithread = FALSE)
     errR <- learnErrors(derepR1, multithread = FALSE)
-    
+
     #------Infer sample composition
     dadaF1 <- dada(derepF1, err = errF, multithread = FALSE)
     dadaR1 <- dada(derepR1, err = errR, multithread = FALSE)
-    
+
     #------Merge forward/reverse reads
     merger1 <-
       mergePairs(dadaF1, derepF1, dadaR1, derepR1, verbose = TRUE)
-    
+
     #------Remove chimeras
     merger1.nochim <-
       removeBimeraDenovo(merger1, multithread = FALSE, verbose = TRUE)
-    
+
     #------Export Excel
     library(openxlsx)
     fileName <- paste0("data/", fileNumber, ".xlsx")
     write.xlsx(merger1, file = fileName)
     
     result <-
-      message(
         paste(
           "Excel File Named ",
           fileName,
@@ -83,6 +82,6 @@ filterTrimForDada2 <-
           filtR1,
           " have been created"
         )
-      )
-    return(result)
+    selectedColor<-"blue"
+    coloredMessage(result, selectedColor)
   }
