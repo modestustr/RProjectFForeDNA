@@ -11,7 +11,15 @@ coloredMessage <- function(messageBlock, mColor) {
   
   resetCode <- "\033[0m" # reset to black
   
-  message(paste0(colorCode, messageBlock, resetCode))
+ 
+  myMessage <- paste0(colorCode, messageBlock, resetCode)
+  colored_Message<- message(myMessage)
+ 
+  fileConn <- file("data/dada2.txt", open = "a")  # "a" modunda dosyayi aç
+  
+  writeLines(messageBlock, con = fileConn)
+  
+  close(fileConn)  # Dosyayi kapat
 }
 
 

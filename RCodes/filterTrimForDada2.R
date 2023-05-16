@@ -29,10 +29,17 @@ filterTrimForDada2 <-
       tempfile(fileext = ".fastq.gz",
                tmpdir = "data",
                pattern = patternR)
-    if (isShowF)
+    
+    # if (isShowF)
+    # {
       plotQualityProfile(fnF1) # Forward
-    if (isShowR)
+      message("plot F generated")
+    # }
+    # if (isShowR) {
       plotQualityProfile(fnR1) # Reverse
+      message("plot R generated")
+    # }
+     
 
     #------Filter and Trim
     filterAndTrim(
@@ -73,15 +80,18 @@ filterTrimForDada2 <-
     write.xlsx(merger1, file = fileName)
     
     result <-
-        paste(
-          "Excel File Named ",
-          fileName,
-          " and fastq.gz Files named ",
-          filtF1,
-          "and ",
-          filtR1,
-          " have been created"
-        )
+      paste(
+        "Excel File Named ",
+        fileName,
+        " and fastq.gz Files named ",
+        filtF1,
+        "and ",
+        filtR1,
+        " have been created. truncLen =",  paste(truncLen, collapse = ","),
+        ", trimLeft =", trimLeft,
+        ",  maxN = ",   maxN,
+        ",  maxEE = ",  maxEE
+      )
     selectedColor<-"blue"
     coloredMessage(result, selectedColor)
   }
