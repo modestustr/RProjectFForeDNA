@@ -9,6 +9,7 @@ filterTrimForDada2 <-
            maxEE = 2,
            compress = TRUE,
            verbose = TRUE) {
+    source("RCodes/coloredMessage.R")
     #-----Filter and Trim
     fnF1 <- F_FileNameWithPath  #"data/4_S4_L001_R1_001.fastq.gz"
     fnR1 <- R_FileNameWithPath  #"data/4_S4_L001_R2_001.fastq.gz"
@@ -32,12 +33,12 @@ filterTrimForDada2 <-
     
     # if (isShowF)
     # {
-      plotQualityProfile(fnF1) # Forward
-      message("plot F generated")
+    #   plotQualityProfile(fnF1) # Forward
+    #   message("plot F generated")
     # }
     # if (isShowR) {
-      plotQualityProfile(fnR1) # Reverse
-      message("plot R generated")
+    #   plotQualityProfile(fnR1) # Reverse
+    #   message("plot R generated")
     # }
      
 
@@ -81,7 +82,8 @@ filterTrimForDada2 <-
     
     result <-
       paste(
-        "Excel File Named ",
+        "Filed Created at (",timestamp(),
+        ")\n Excel File Named ",
         fileName,
         " and fastq.gz Files named ",
         filtF1,
@@ -90,7 +92,8 @@ filterTrimForDada2 <-
         " have been created. truncLen =",  paste(truncLen, collapse = ","),
         ", trimLeft =", trimLeft,
         ",  maxN = ",   maxN,
-        ",  maxEE = ",  maxEE
+        ",  maxEE = ",  maxEE,
+        "\n ====----------------------------------------------------------------------===="
       )
     selectedColor<-"blue"
     coloredMessage(result, selectedColor)
