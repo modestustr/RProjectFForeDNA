@@ -70,7 +70,8 @@ filterTrimForDada2 <-
 
    result <-
      paste(
-       "Excel File Named ",
+       "Filed Created at (",timestamp(),
+       ")\n Excel File Named ",
        fileName,
        " and fastq.gz Files named ",
        filtF1,
@@ -79,7 +80,8 @@ filterTrimForDada2 <-
        " have been created. truncLen =",  paste(truncLen, collapse = ","),
        ", trimLeft =", trimLeft,
        ",  maxN = ",   maxN,
-       ",  maxEE = ",  maxEE
+       ",  maxEE = ",  maxEE,
+       "\n ====----------------------------------------------------------------------===="
      )
     selectedColor<-"blue"
     coloredMessage(result, selectedColor)
