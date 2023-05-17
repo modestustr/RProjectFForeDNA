@@ -29,19 +29,8 @@ filterTrimForDada2 <-
       tempfile(fileext = ".fastq.gz",
                tmpdir = "data",
                pattern = patternR)
-    
-    # if (isShowF)
-    # {
-      plotQualityProfile(fnF1) # Forward
-      message("plot F generated")
-    # }
-    # if (isShowR) {
-      plotQualityProfile(fnR1) # Reverse
-      message("plot R generated")
-    # }
-     
 
-    #------Filter and Trim
+   #------Filter and Trim
     filterAndTrim(
       fwd = fnF1,
       filt = filtF1,
@@ -74,24 +63,29 @@ filterTrimForDada2 <-
     merger1.nochim <-
       removeBimeraDenovo(merger1, multithread = FALSE, verbose = TRUE)
 
-    #------Export Excel
-    library(openxlsx)
-    fileName <- paste0("data/", fileNumber, ".xlsx")
-    write.xlsx(merger1, file = fileName)
-    
-    result <-
-      paste(
-        "Excel File Named ",
-        fileName,
-        " and fastq.gz Files named ",
-        filtF1,
-        "and ",
-        filtR1,
-        " have been created. truncLen =",  paste(truncLen, collapse = ","),
-        ", trimLeft =", trimLeft,
-        ",  maxN = ",   maxN,
-        ",  maxEE = ",  maxEE
-      )
+   #------Export Excel
+   library(openxlsx)
+   fileName <- paste0("data/", fileNumber, ".xlsx")
+   write.xlsx(merger1, file = fileName)
+
+   result <-
+     paste(
+       "Excel File Named ",
+       fileName,
+       " and fastq.gz Files named ",
+       filtF1,
+       "and ",
+       filtR1,
+       " have been created. truncLen =",  paste(truncLen, collapse = ","),
+       ", trimLeft =", trimLeft,
+       ",  maxN = ",   maxN,
+       ",  maxEE = ",  maxEE
+     )
     selectedColor<-"blue"
     coloredMessage(result, selectedColor)
-  }
+    
+    fileF <- gsub("\\\\", "/", filtF1)
+    fileR<- gsub("\\\\", "/",filtR1)
+    trimmedFiles<- c(fileF, fileR)
+    return(trimmedFiles)
+    }
