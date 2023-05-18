@@ -1,14 +1,15 @@
 filterTrimForDada2 <-
   function(F_FileNameWithPath,
            R_FileNameWithPath,
-           isShowF = TRUE,
-           isShowR = TRUE,
            maxN = 0,
            trimLeft = 10,
            truncLen = NULL,
-           maxEE = 2,
+           maxEE = c(2,2),
            compress = TRUE,
-           verbose = TRUE) {
+           verbose = TRUE,
+           phix = TRUE,
+           mT = FALSE,
+           truncQ = 2) {
     #-----Filter and Trim
     fnF1 <- F_FileNameWithPath  #"data/4_S4_L001_R1_001.fastq.gz"
     fnR1 <- R_FileNameWithPath  #"data/4_S4_L001_R2_001.fastq.gz"
@@ -41,7 +42,10 @@ filterTrimForDada2 <-
       maxN = maxN,
       maxEE = maxEE,
       compress = compress,
-      verbose = verbose
+      verbose = verbose,
+      rm.phix = phix,
+      multithread = mT,
+      truncQ = truncQ
     )
     #-----Dereplicate
     derepF1 <- derepFastq(filtF1, verbose = TRUE)
@@ -64,19 +68,21 @@ filterTrimForDada2 <-
       removeBimeraDenovo(merger1, multithread = FALSE, verbose = TRUE)
 
    #------Export Excel
-   library(openxlsx)
    fileName <- paste0("data/", fileNumber, ".xlsx")
    write.xlsx(merger1, file = fileName)
 
+   fileF <- gsub("\\\\", "/", filtF1)
+   fileR<- gsub("\\\\", "/",filtR1)
+   
    result <-
      paste(
        "Filed Created at (",timestamp(),
        ")\n Excel File Named ",
        fileName,
        " and fastq.gz Files named ",
-       filtF1,
+       fileF,
        "and ",
-       filtR1,
+       fileR,
        " have been created. truncLen =",  paste(truncLen, collapse = ","),
        ", trimLeft =", trimLeft,
        ",  maxN = ",   maxN,
@@ -85,9 +91,6 @@ filterTrimForDada2 <-
      )
     selectedColor<-"blue"
     coloredMessage(result, selectedColor)
-    
-    fileF <- gsub("\\\\", "/", filtF1)
-    fileR<- gsub("\\\\", "/",filtR1)
     trimmedFiles<- c(fileF, fileR)
     return(trimmedFiles)
     }
