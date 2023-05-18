@@ -6,7 +6,7 @@ pkg_list <- c(
   "scales","dplyr","ggpmisc","gridExtra",
   "ggpubr","cowplot","progress","tidyverse",
   "hrbrthemes","viridis","tcltk","tcltk2",
-  "rlang","pacman","BiocManager","easynls","openxlsx","dada2"
+  "rlang","pacman","BiocManager","easynls","openxlsx"
 )
 
 # All Installed Packages
@@ -18,6 +18,10 @@ for (pkg in pkg_list) {
     install.packages(pkg)
   }
 }
+
+if (!require("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install(version = "3.17")
 
 # Load library
 lapply(pkg_list, library, character.only = TRUE)
@@ -48,6 +52,7 @@ source("RCodes/getDataFileName.R")
 source("RCOdes/dataMeanGroupBy.R")
 source("RCOdes/readChoice.R")
 source("RCOdes/nlsPlotModel6.R")
+source("RCodes/coloredMessage.R")
 
 message("\nLibraries and iniquities Installed \n" )
 sink()
