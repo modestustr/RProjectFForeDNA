@@ -19,9 +19,9 @@ for (pkg in pkg_list) {
   }
 }
 
-if (!require("BiocManager", quietly = TRUE))
+if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
-BiocManager::install(version = "3.17")
+BiocManager::install("dada2", version = "3.17")
 
 # Load library
 lapply(pkg_list, library, character.only = TRUE)
@@ -53,6 +53,7 @@ source("RCOdes/dataMeanGroupBy.R")
 source("RCOdes/readChoice.R")
 source("RCOdes/nlsPlotModel6.R")
 source("RCodes/coloredMessage.R")
+source("RCodes/filterTrimForDada2.R")
 
 message("\nLibraries and iniquities Installed \n" )
 sink()
