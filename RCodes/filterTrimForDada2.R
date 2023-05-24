@@ -69,7 +69,8 @@ filterTrimForDada2 <-
 
    #------Export Excel
    fileName <- paste0("data/", fileNumber, ".xlsx")
-   write.xlsx(merger1, file = fileName)
+library(openxlsx)
+      write.xlsx(merger1.nochim, file = fileName)
 
    fileF <- gsub("\\\\", "/", filtF1)
    fileR<- gsub("\\\\", "/",filtR1)
