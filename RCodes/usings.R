@@ -19,9 +19,9 @@ for (pkg in pkg_list) {
   }
 }
 
-if (!requireNamespace("BiocManager", quietly = TRUE))
-  install.packages("BiocManager")
-BiocManager::install("dada2", version = "3.17")
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#   install.packages("BiocManager")
+# BiocManager::install("dada2", version = "3.17")
 
 # Load library
 lapply(pkg_list, library, character.only = TRUE)
