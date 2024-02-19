@@ -8,8 +8,8 @@ source("RCodes/usings.R")
 selectedFile<-getDataFileName()
 EgeriaDaphniaDegra <- ImportExcel(selectedFile,"EgeriaDaphniaDegra","A1:M1297",na="na")
 # Filter by Empty and NOT NA
-EgeriaDaphniaDegraFiltered<- EgeriaDaphniaDegra %>% filter(CopyNumberLoged!="", !is.na(CopyNumberLoged))
-EgeriaDaphniaDegraFilteredCopy<- EgeriaDaphniaDegra %>% filter(CopyNumberLoged!="", !is.na(CopyNumberLoged))
+EgeriaDaphniaDegraFiltered<- EgeriaDaphniaDegra %>% filter(CopyNumberSelected!="", !is.na(CopyNumberSelected))
+EgeriaDaphniaDegraFilteredCopyLoged<- EgeriaDaphniaDegra %>% filter(CopyNumberLoged!="", !is.na(CopyNumberLoged))
 
 col_names<-colnames(EgeriaDaphniaDegraFiltered)
 col_names
@@ -23,36 +23,81 @@ datagroupDegraEgeria <- filter(data_groupDegra, Organism == "E.densa")
 datagroupDegraEgeriaLoged <- filter(data_groupDegraLoged, Organism == "E.densa")
 
 EgeriaDegraFiltered<- filter(EgeriaDaphniaDegraFiltered, Organism=="E.densa")
-EgeriaDegraFilteredCopy<- filter(EgeriaDaphniaDegraFilteredCopy, Organism=="E.densa")
+EgeriaDegraFilteredCopy<- filter(EgeriaDaphniaDegraFilteredCopyLoged, Organism=="E.densa")
 # dataDegraEgeria <- dataDegraEgeria %>%
 #   mutate(Organism = if_else(Organism == "Egeria", "E.densa", Organism))
 
 # Filter Egeria for Sediment
 datagroupDegraEgeriaLogedforSediment<- filter(datagroupDegraEgeriaLoged, Substrat=="Sediment")
 
-# ----Filter Egeria for Sediment Set1
+# EgeriaDegraFilteredCopyLogedSediment----
+EgeriaDegraFilteredCopyLogedSediment<- filter(EgeriaDaphniaDegraFilteredCopyLoged,Organism=="Egeria densa" & Substrate=="Sediment")
+EgeriaDegraFilteredCopyLogedSedimentSet1<- filter(EgeriaDaphniaDegraFilteredCopyLoged,Organism=="Egeria densa" & Substrate=="Sediment" & Set=="Set1")
+EgeriaDegraFilteredCopyLogedSedimentSet2<- filter(EgeriaDaphniaDegraFilteredCopyLoged,Organism=="Egeria densa" & Substrate=="Sediment" & Set=="Set2")
+EgeriaDegraFilteredCopyLogedSedimentSet3<- filter(EgeriaDaphniaDegraFilteredCopyLoged,Organism=="Egeria densa" & Substrate=="Sediment" & Set=="Set3")
+
+nlsPlotModel6(EgeriaDegraFilteredCopyLogedSediment$Time,EgeriaDegraFilteredCopyLogedSediment$CopyNumberLoged, title = "E.densa Sediment All Sets")
+nlsPlotModel6(EgeriaDegraFilteredCopyLogedSedimentSet1$Time,EgeriaDegraFilteredCopyLogedSedimentSet1$CopyNumberLoged, title = "E.densa Sediment Set1")
+nlsPlotModel6(EgeriaDegraFilteredCopyLogedSedimentSet2$Time,EgeriaDegraFilteredCopyLogedSedimentSet2$CopyNumberLoged, title = "E.densa Sediment Set2")
+nlsPlotModel6(EgeriaDegraFilteredCopyLogedSedimentSet3$Time,EgeriaDegraFilteredCopyLogedSedimentSet3$CopyNumberLoged, title = "E.densa Sediment Set3")
+
+# DaphniaDegraFilteredCopyLogedSediment----
+DaphniaDegraFilteredCopyLogedSediment<- filter(EgeriaDaphniaDegraFilteredCopyLoged,Organism=="Daphnia magna" & Substrate=="Sediment")
+DaphniaDegraFilteredCopyLogedSedimentSet1<- filter(EgeriaDaphniaDegraFilteredCopyLoged,Organism=="Daphnia magna" & Substrate=="Sediment" & Set=="Set1")
+DaphniaDegraFilteredCopyLogedSedimentSet2<- filter(EgeriaDaphniaDegraFilteredCopyLoged,Organism=="Daphnia magna" & Substrate=="Sediment" & Set=="Set2")
+DaphniaDegraFilteredCopyLogedSedimentSet3<- filter(EgeriaDaphniaDegraFilteredCopyLoged,Organism=="Daphnia magna" & Substrate=="Sediment" & Set=="Set3")
+
+nlsPlotModel6(DapniaDegraFilteredCopyLogedSediment$Time,DapniaDegraFilteredCopyLogedSediment$CopyNumberLoged, title = "D.magna Sediment All Sets")
+nlsPlotModel6(DaphniaDegraFilteredCopyLogedSedimentSet1$Time,DaphniaDegraFilteredCopyLogedSedimentSet1$CopyNumberLoged, title = "D.maagna Sediment Set1")
+nlsPlotModel6(DaphniaDegraFilteredCopyLogedSedimentSet2$Time,DaphniaDegraFilteredCopyLogedSedimentSet2$CopyNumberLoged, title = "D.maagna Sediment Set2")
+# nlsPlotModel6(DaphniaDegraFilteredCopyLogedSedimentSet3$Time,DaphniaDegraFilteredCopyLogedSedimentSet3$CopyNumberLoged)
+
+# EgeriaDegraFilteredCopyLogedWater----
+EgeriaDegraFilteredCopyLogedWater<- filter(EgeriaDaphniaDegraFilteredCopyLoged,Organism=="Egeria densa" & Substrate=="Water")
+EgeriaWaterSet1<- filter(EgeriaDaphniaDegraFilteredCopyLoged,Organism=="Egeria densa" & Substrate=="Water" & Set=="Set1")
+EgeriaWaterSet2<- filter(EgeriaDaphniaDegraFilteredCopyLoged,Organism=="Egeria densa" & Substrate=="Water" & Set=="Set2")
+EgeriaWaterSet3<- filter(EgeriaDaphniaDegraFilteredCopyLoged,Organism=="Egeria densa" & Substrate=="Water" & Set=="Set3")
+
+nlsPlotModel6(EgeriaDegraFilteredCopyLogedWater$Time,EgeriaDegraFilteredCopyLogedWater$CopyNumberLoged, title = "E.densa Water All Sets")
+nlsPlotModel6(EgeriaWaterSet1$Time,EgeriaWaterSet1$CopyNumberLoged, title = "E.densa Water Set1")
+nlsPlotModel6(EgeriaWaterSet2$Time,EgeriaWaterSet2$CopyNumberLoged, title = "E.densa Water Set2")
+nlsPlotModel6(EgeriaWaterSet3$Time,EgeriaWaterSet3$CopyNumberLoged, title = "E.densa Water Set3")
+
+
+# DaphniaDegraFilteredCopyLogedWater----
+DaphniaDegraFilteredCopyLogedWater<- filter(EgeriaDaphniaDegraFilteredCopyLoged,Organism=="Daphnia magna" & Substrate=="Water")
+DaphniaDegraFilteredCopyLogedWaterSet1<- filter(EgeriaDaphniaDegraFilteredCopyLoged,Organism=="Daphnia magna" & Substrate=="Water" & Set=="Set1")
+DaphniaDegraFilteredCopyLogedWaterSet2<- filter(EgeriaDaphniaDegraFilteredCopyLoged,Organism=="Daphnia magna" & Substrate=="Water" & Set=="Set2")
+DaphniaDegraFilteredCopyLogedWaterSet3<- filter(EgeriaDaphniaDegraFilteredCopyLoged,Organism=="Daphnia magna" & Substrate=="Water" & Set=="Set3")
+
+nlsPlotModel6(DaphniaDegraFilteredCopyLogedWater$Time,DaphniaDegraFilteredCopyLogedWater$CopyNumberLoged, title = "D.magna Water All Sets")
+nlsPlotModel6(DaphniaDegraFilteredCopyLogedWaterSet1$Time,DaphniaDegraFilteredCopyLogedWaterSet1$CopyNumberLoged, title = "D.magna Water Set1")
+nlsPlotModel6(DaphniaDegraFilteredCopyLogedWaterSet2$Time,DaphniaDegraFilteredCopyLogedWaterSet2$CopyNumberLoged, title = "D.magna Water Set2")
+# nlsPlotModel6(DaphniaDegraFilteredCopyLogedWaterSet3$Time,DaphniaDegraFilteredCopyLogedWaterSet3$CopyNumberLoged)
+
+# ----Filter Egeria for Sediment Set1----
 datagroupDegraEgeriaLogedforSedimentSet1<- filter(datagroupDegraEgeriaLogedforSediment, Set=="Set1")
 
-# ----Filter Egeria for Sediment Set2
+# ----Filter Egeria for Sediment Set2----
 datagroupDegraEgeriaLogedforSedimentSet2<- filter(datagroupDegraEgeriaLogedforSediment, Set=="Set2")
 
-# ----Filter Egeria for Sediment Set3
+# ----Filter Egeria for Sediment Set3----
 datagroupDegraEgeriaLogedforSedimentSet3<- filter(datagroupDegraEgeriaLogedforSediment, Set=="Set3")
 
-# Filter Egeria for Water
+# Filter Egeria for Water----
 datagroupDegraEgeriaLogedforWater<- filter(datagroupDegraEgeriaLoged, Substrat=="Water")
 
-# ----Filter Egeria for Water Set1
+# ----Filter Egeria for Water Set1----
 datagroupDegraEgeriaLogedforWaterSet1<- filter(datagroupDegraEgeriaLogedforWater, Set=="Set1")
 
-# ----Filter Egeria for Water Set2
+# ----Filter Egeria for Water Set2----
 datagroupDegraEgeriaLogedforWaterSet2<- filter(datagroupDegraEgeriaLogedforWater, Set=="Set2")
 
-# ----Filter Egeria for Water Set3
+# ----Filter Egeria for Water Set3----
 datagroupDegraEgeriaLogedforWaterSet3<- filter(datagroupDegraEgeriaLogedforWater, Set=="Set3")
 
 
-# Filter for Daphnia 
+# Filter for Daphnia ----
 datagroupDegraDaphnia <- filter(data_groupDegra, Organism == "D.magna")
 datagroupDegraDaphniaLoged <- filter(data_groupDegraLoged, Organism == "D.magna")
 
@@ -84,6 +129,10 @@ datagroupDegraDaphniaLogedforWaterSet3<- filter(datagroupDegraDaphniaLogedforWat
 
 #-----nlsPlots----
 nlsPlotModel6(datagroupDegraEgeriaLogedforSediment$Time,datagroupDegraEgeriaLogedforSediment$mean$y)
+nlsPlotModel6(EgeriaDegraFilteredCopyLogedSediment$Time,EgeriaDegraFilteredCopyLogedSediment$CopyNumberLoged)
+nlsPlotModel6(OnlySediment$Time,OnlySediment$CopyNumberLoged)
+
+
 nlsPlotModel6(datagroupDegraEgeriaLogedforSedimentSet1$Time,datagroupDegraEgeriaLogedforSedimentSet1$mean$y)
 nlsPlotModel6(datagroupDegraEgeriaLogedforSedimentSet2$Time,datagroupDegraEgeriaLogedforSedimentSet2$mean$y)
 nlsPlotModel6(datagroupDegraEgeriaLogedforSedimentSet3$Time,datagroupDegraEgeriaLogedforSedimentSet3$mean$y)
@@ -105,7 +154,8 @@ nlsPlotModel6(datagroupDegraDaphniaLogedforWaterSet2$Time,datagroupDegraDaphniaL
 #-------Egeria Copy Numbers-----
 de1<-ggplot(datagroupDegraEgeria, aes(x = factor(Time), y = mean$y)) +
   geom_boxplot(fill = "lightblue", color = c("#b39b9a"),outlier.size = 3, outlier.shape = 10, outlier.color = "red") +
-  geom_point()+
+  # geom_point()+
+  stat_summary(aes(group = Substrat, color = Substrat),fun = "mean",geom = "line",alpha = .7) +
   scale_y_continuous(labels = scales::scientific_format(digits = 2)) +
   facet_grid(Organism + Substrat ~ Set + ., scales = "free_y", switch = "x") +
   labs(title = "E.densa Copy Numbers By Time and Sets", x = "Time(Hours)", y = "Copies/ml              Copies/gr") +
@@ -123,7 +173,8 @@ if(showPlot)
 #-------Egeria Loged Copy Numbers-----
 de2<-ggplot(datagroupDegraEgeriaLoged, aes(x = factor(Time), y = mean$y)) +
   geom_boxplot(fill = "lightblue", color = c("#b39b9a"),outlier.size = 3, outlier.shape = 10, outlier.color = "red") +
-  geom_point()+
+  # geom_point()+
+  stat_summary(aes(group = Substrat, color = Substrat),fun = "mean",geom = "line",alpha = .7) +
   scale_y_continuous(labels = scales::scientific_format(digits = 2)) +
   facet_grid(Organism + Substrat ~ Set + ., scales = "free_y", switch = "x") +
   labs(title = "E.densa Loged Copy Numbers By Time and Sets", x = "Time(Hours)", y = "Copies/ml          Copies/gr") +
@@ -131,7 +182,7 @@ de2<-ggplot(datagroupDegraEgeriaLoged, aes(x = factor(Time), y = mean$y)) +
         strip.text = element_text(color = "white", size = 10, face = "bold"),
         axis.text.x = element_text(angle = 90, vjust = 0.5),
         axis.title.x = element_text(vjust = -0.5),
-        panel.spacing.x = unit(0.5, "lines"),legend.position="bottom")
+        panel.spacing.x = unit(0.5, "lines"),legend.position="none")
 # Save
 if(isSaveOn)
   plotSave(de2, "Degra_EgeriaLogedCopyNumbers.png")
@@ -141,7 +192,8 @@ if(showPlot)
 #-------Daphnia Copy Numbers-----
 dd1<-ggplot(datagroupDegraDaphnia, aes(x = factor(Time), y = mean$y)) +
   geom_boxplot(fill = "lightblue", color = c("#b39b9a"),outlier.size = 3, outlier.shape = 10, outlier.color = "red") +
-  geom_point()+
+  # geom_point()+
+  stat_summary(aes(group = Substrat, color = Substrat),fun = "mean",geom = "line",alpha = .7) +
   scale_y_continuous(labels = scales::scientific_format(digits = 2)) +
   facet_grid(Organism + Substrat ~ Set + ., scales = "free_y", switch = "x") +
   labs(title = "D.magna Copy Numbers By Time and Sets", x = "Time(Hours)", y = "Copies/ml              Copies/gr") +
@@ -159,7 +211,8 @@ if(showPlot)
 #-------Daphnia Loged Copy Numbers-----
 dd2<-ggplot(datagroupDegraDaphniaLoged, aes(x = factor(Time), y = mean$y)) +
   geom_boxplot(fill = "lightblue", color = c("#b39b9a"),outlier.size = 3, outlier.shape = 10, outlier.color = "red") +
-  geom_point()+
+  # geom_point()+
+  stat_summary(aes(group = Substrat, color = Substrat),fun = "mean",geom = "line",alpha = .7) +
   scale_y_continuous(labels = scales::scientific_format(digits = 2)) +
   facet_grid(Organism + Substrat ~ Set + ., scales = "free_y", switch = "x") +
   labs(title = "D.magna Loged Copy Numbers By Time and Sets", x = "Time(Hours)", y = "Copies/ml          Copies/gr") +
@@ -167,7 +220,7 @@ dd2<-ggplot(datagroupDegraDaphniaLoged, aes(x = factor(Time), y = mean$y)) +
         strip.text = element_text(color = "white", size = 10, face = "bold"),
         axis.text.x = element_text(angle = 90, vjust = 0.5),
         axis.title.x = element_text(vjust = -0.5),
-        panel.spacing.x = unit(0.5, "lines"),legend.position="bottom")
+        panel.spacing.x = unit(0.5, "lines"),legend.position="none")
 # Save
 if(isSaveOn)
   plotSave(dd2, "Degra_DaphniaLogedCopyNumbers.png")
@@ -235,7 +288,7 @@ EgeriaDegraSet3FilteredCopy<- filter(datagroupDegraEgeria, Set=="Set3")
 ggplot(EgeriaDegraSet3FilteredCopy, aes(x = factor(Time), y = mean$y)) + 
   geom_boxplot(aes(fill = Substrat), color = "#b39b9a",outlier.size=3, outlier.shape=10, outlier.color="red")  +
   geom_point()+
- # stat_summary(aes(group = Substrat), fun = "mean", fun.max = function(x) mean(x) + sd(x), fun.min = function(x) mean(x) - sd(x),             geom = "point", size = 1, position = position_dodge(width = 0.75)) +
+  # stat_summary(aes(group = Substrat), fun = "mean", fun.max = function(x) mean(x) + sd(x), fun.min = function(x) mean(x) - sd(x),             geom = "point", size = 1, position = position_dodge(width = 0.75)) +
   labs(title = "", x = "Time(hours)", y = "DNA Copies/ml                 DNA Copies/gr" ) +     
   facet_wrap(~Organism+ Substrat+Set, ncol = 1, strip.position = "right", scales = "free_y") +
   scale_fill_brewer(palette = "Paired") +
@@ -336,7 +389,7 @@ showPlot <- readChoice("Show Plot")
 isSaveOn <- readChoice("Save On/Off")
 
 #-------------All Group by Organism and Substrate Type----
-p1 <- ggplot(data_groupDegra, aes(x = factor(Time), y = mean$y)) +
+p1 <- ggplot(data_groupDegraLoged, aes(x = factor(Time), y = mean$y)) +
   geom_boxplot() +
   # geom_boxplot(fill = "lightblue", color = c("#b39b9a")) +
   # scale_x_continuous(labels = scales::scientific, breaks = scales::pretty_breaks(n = 10)) +

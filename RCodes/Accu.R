@@ -22,7 +22,7 @@ saveMyPlot<- function(mplot,filename, mIsSaveOn){
 selectedFile<-getDataFileName()
 EgeriaDaphniaAccu <- ImportExcel(selectedFile,"EgeriaDaphniaAccu","A1:L257", na="na")
 # CopyNUmbers Calculation and Added To Dataset
- # EgeriaDaphniaAccu <- mutate(EgeriaDaphniaAccu,DnaCopiesNumber = ifelse(Organism == "E.densa",getDnaCopiesNumber(CorrectedValue, "E.densa"), getDnaCopiesNumber(CorrectedValue, "D.magna")))
+# EgeriaDaphniaAccu <- mutate(EgeriaDaphniaAccu,DnaCopiesNumber = ifelse(Organism == "E.densa",getDnaCopiesNumber(CorrectedValue, "E.densa"), getDnaCopiesNumber(CorrectedValue, "D.magna")))
 
 EgeriaDaphniaLogedAccuFiltered <-
   EgeriaDaphniaAccu %>% filter(CopyNumberLoged != "",!is.na(CopyNumberLoged))
@@ -34,7 +34,7 @@ col_names<-colnames(EgeriaDaphniaAccu)
 col_names
 #-------------Mean by groups----
 data_group <- dataMeanGroupBy(EgeriaDaphniaCopyNumberAccuFiltered, c(4, 5, 3, 2), "CopyNumberSelected", TRUE)
-data_group_Loged <- dataMeanGroupBy(EgeriaDaphniaCopyNumberAccuFiltered, c(4, 5, 3, 2), "CopyNumberLoged", TRUE)
+data_group_Loged <- dataMeanGroupBy(EgeriaDaphniaLogedAccuFiltered, c(4, 5, 3, 2), "CopyNumberLoged", TRUE)
 #-------------Mean by groups for Substrat----
 data_groupSubstrat <-dataMeanGroupBy(EgeriaDaphniaLogedAccuFiltered, c(5,1,3,4),"CopyNumberLoged",TRUE)
 #-------------Mean by groups----
@@ -42,8 +42,6 @@ data_groupSubstratbyOrganism <-dataMeanGroupBy(EgeriaDaphniaCopyNumberAccuFilter
 
 data_groupBySubstrat <- dataMeanGroupBy(EgeriaDaphniaCopyNumberAccuFiltered, c(5,4),"CopyNumberSelected",TRUE)
 data_groupBySubstratLoged <- dataMeanGroupBy(EgeriaDaphniaCopyNumberAccuFiltered, c(5,4),"CopyNumberLoged",TRUE)
-
-nlsPlotModel6(data_group_Loged$Time,data_group_Loged$mean$y)
 
 #-------------Filters----
 # Filter for Egeria
@@ -58,49 +56,80 @@ dataAccuDaphniaLoged <- filter(data_group_Loged, Organism == "D.magna")
 #   mutate(Organism = if_else(Organism == "Daphnia", "D.magna", Organism))
 
 
+# E.densa Water
+data_group_LogedEgeriaWater<-filter(dataAccuEgeriaLoged, Substrat=="Water")
+
+
+# E.densa Sediment
+data_group_LogedEgeriaSediment<-filter(dataAccuEgeriaLoged, Substrat=="Sediment")
+
+# D.magna Water
+data_group_LogedDaphniaWater<-filter(dataAccuDaphniaLoged, Substrat=="Water")
+
+
+# D.magna Sediment
+data_group_LogedDaphniaSediment<-filter(dataAccuDaphniaLoged, Substrat=="Sediment")
+
+nlsPlotModel6(data_group_LogedEgeriaWater$Time,data_group_LogedEgeriaWater$mean$y)
+nlsPlotModel6(data_group_LogedEgeriaSediment$Time,data_group_LogedEgeriaSediment$mean$y)
+
+nlsPlotModel6(data_group_LogedDaphniaWater$Time,data_group_LogedDaphniaWater$mean$y)
+nlsPlotModel6(data_group_LogedDaphniaSediment$Time,data_group_LogedDaphniaSediment$mean$y)
+
+
 #-------------All Group by Organism and Substrate Type----
-p1<-ggplot(data_group, aes(x = factor(Time), y = mean$y)) + 
+pal<- wes_palette("Zissou1", 100, type = "continuous")
+p1<-ggplot(data_group_Loged, aes(x = factor(Time), y = mean$y)) +
   # geom_bar(aes(group=Substrat, color=Substrat), stat = "identity") +
-  geom_boxplot(aes(fill = Substrat), color = "#b39b9a")  +
+  # geom_boxplot(aes(fill = Substrat), color = "#b39b9a")  +
+  geom_boxplot(aes(fill = Substrat, color = Substrat)) +
   # stat_summary(aes(group=Substrat, color=Substrat),fun.y=mean, geom="point", shape=18, size=3, color="black") +
   # stat_summary(aes(group=Substrat, color=Substrat),fun = mean, geom = "pointrange",fun.max = function(x) mean(x) + sd(x), fun.min = function(x) mean(x) - sd(x)) +
-  # stat_summary(fun = "mean", geom = "bar", alpha = .7) +
-  stat_summary(aes(group=Substrat, color=Substrat), fun = "mean",fun.max = function(x) mean(x) + sd(x), fun.min = function(x) mean(x) - sd(x), geom = "point", size = 1) +
+  stat_summary(aes(group = Substrat, color = Substrat),fun = "mean",geom = "line",alpha = .7) +
+  # stat_summary(aes(group=Substrat, color=Substrat), fun = "mean",fun.max = function(x) mean(x) + sd(x), fun.min = function(x) mean(x) - sd(x), geom = "point", size = 1) +
+  # stat_summary(aes(group=Substrat, color=Substrat), fun = "mean",fun.max = mean$ymax, fun.min = mean$ymin, geom = "line", size = 1) +
   # stat_summary(aes(group=Substrat, color=Substrat), fun = "mean", geom = "line")+
   # stat_summary(aes(group=Substrat, color=Substrat), fun.data = "mean_cl_normal", geom = "errorbar", width = .2) +
-  labs(title = "", x = "Time(hours)", y = "Copies/gr;Copies/ml" ) +     
-  facet_wrap(~ Organism, ncol = 1,  strip.position = "right") +
-  scale_fill_brewer(palette="RdGy")+
+  labs(title = "", x = "Time(hours)", y = "Copies/gr(Sediment); Copies/ml(Water)") +
+  facet_wrap( ~ Organism, ncol = 1,  strip.position = "top") +
+  scale_fill_brewer(palette = "RdYlBu") +
   theme(
     #strip.background = element_rect((fill = brewer.pal(9, "Set1"))),
     strip.background.y = element_blank(),
-    strip.text = element_text(color = "black", size = 10, face = "bold"),
-    legend.position  = "none",
+    strip.text = element_text(
+      color = "black",
+      size = 10,
+      face = "bold"
+    ),
+    legend.position  = "bottom",
     panel.background = element_rect(fill = "white"),
     #panel.grid.major = element_line(color = "black",linetype = "dotted" ),
     #panel.grid.minor = element_line(color = "darkgray",linetype = "dashed" ),
     #panel.grid.major.x = element_line(color = "darkgreen")
-    axis.title = element_text(color = "black"), 
-    axis.line = element_line(color = "black"), 
-    axis.text = element_text(color = "black"), 
+    axis.title = element_text(color = "black"),
+    axis.line = element_line(color = "black"),
+    axis.text = element_text(color = "black"),
     axis.ticks = element_line(color = "black")
   ) +
   coord_cartesian(xlim = c(1, NA), ylim = c(-5, NA)) +
-  expand_limits(x = 0, y = -5) 
+  expand_limits(x = 0, y = -5)
 
 # Save
-  saveMyPlot(p1, "Accu_CopyNumbersMeanByAllGroup.png", isSaveOn)
+saveMyPlot(p1, "Accu_CopyNumbersMeanByAllGroup.png", isSaveOn)
 # View
 showMePlot(p1, showPlot)
 
-ggplot(data_group, aes(x = factor(Time), y = mean$y)) + 
-  geom_boxplot(aes(fill = Substrat), color = "#b39b9a",outlier.size=3, outlier.shape=10, outlier.color="red")  +
+
+
+ggplot(EgeriaDaphniaLogedAccuFiltered, aes(x = factor(Time), y = CopyNumberLoged)) +
+  # geom_boxplot(aes(fill = Substrat), color = "#b39b9a",outlier.size=3, outlier.shape=10, outlier.color="red")  +
   geom_point(aes(color=OrderByTime))+
-  stat_summary(aes(group = Substrat), fun = "mean", 
-               fun.max = function(x) mean(x) + sd(x), 
-               fun.min = function(x) mean(x) - sd(x), 
+  # geom_line(aes(y = tahmin_edilen), color = "red")+
+  stat_summary(aes(group = Substrat), fun = "mean",
+               fun.max = function(x) mean(x) + sd(x),
+               fun.min = function(x) mean(x) - sd(x),
                geom = "point", size = 1, position = position_dodge(width = 0.75)) +
-  labs(title = "", x = "Time(hours)", y = "Copies/ml                        Copies/gr          Copies/ml             Copies/gr" ) +     
+  labs(title = "", x = "Time(hours)", y = "Copies/ml                        Copies/gr          Copies/ml             Copies/gr" ) +
   facet_wrap(~Organism+ Substrat, ncol = 1, strip.position = "right", scales = "free_y") +
   scale_fill_brewer(palette = "Paired") +
   theme(
@@ -108,14 +137,16 @@ ggplot(data_group, aes(x = factor(Time), y = mean$y)) +
     strip.text = element_text(color = "black", size = 10, face = "bold"),
     legend.position = "none",
     panel.background = element_rect(fill = "white"),
-    axis.title = element_text(color = "black"), 
-    axis.line = element_line(color = "black"), 
-    axis.text = element_text(color = "black"), 
+    axis.title = element_text(color = "black"),
+    axis.line = element_line(color = "black"),
+    axis.text = element_text(color = "black"),
     axis.ticks = element_line(color = "black")
   ) +
   coord_cartesian(xlim = c(1, NA), ylim = c(-5, NA)) +
   expand_limits(x = 0, y = -5)+
-  scale_y_continuous(labels = scales::scientific_format(digits = 2))
+  scale_y_continuous(labels = scales::scientific_format(digits = 2))+ 
+  theme_minimal()
+  # + geom_smooth(method = "loess", se = FALSE)
 
 #------------Copy Numbers----
 egeriaSediment<-dataAccuEgeria%>% filter(Substrat=="Sediment")
@@ -184,7 +215,7 @@ showMePlot(eger, showPlot)
 
 daphniaSedimet<-dataAccuDaphnia%>% filter(Substrat=="Sediment")
 d1<-ggplot(daphniaSedimet, aes(x = factor(Time), y = mean$y)) + 
-   geom_boxplot(aes(fill = Substrat), color = "#b39b9a", outlier.size = 3, outlier.shape = 10, outlier.color = "red") +
+  geom_boxplot(aes(fill = Substrat), color = "#b39b9a", outlier.size = 3, outlier.shape = 10, outlier.color = "red") +
   geom_point() +
   labs(title = "", x = "Time(hours)", y = "Copies/gr") +     
   facet_wrap(~Organism + Substrat, ncol = 1, strip.position = "top", scales = "free_y") +
